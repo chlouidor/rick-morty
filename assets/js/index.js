@@ -1,20 +1,11 @@
+import{getPersonajes} from './peticiones/getPersonajes.js';
+
 let currentPage = 1;
 let loadCharacters = [];
 
 let isLoading = false;
 
-const obtenerPersonajes = async() => {
 
-    try{
-        const response = await fetch("https://rickandmortyapi.com/api/character")
-        const data = await response.json();
-
-        return data.results;
-    }catch(error){
-        console.log(`El error es: ${error}`);
-    }
-
-}
 
 const enviarDatos = (id , name , species , status , image) => {
 
@@ -49,7 +40,7 @@ const enviarDatos = (id , name , species , status , image) => {
 
 }
 
-const crearTarjetas = async( results = [] ) => {
+const crearTarjetas = ( results = [] ) => {
 
     let personajesRow = document.getElementById("personajesRow");
     results.map( ( result )=> {
@@ -120,8 +111,6 @@ const crearTarjetas = async( results = [] ) => {
 }
 
 
-obtenerPersonajes()
-    .then( (data) => {
-            crearTarjetas(data);
-        })
-    .catch(error => console.log(error))
+getPersonajes()
+    .then( data => crearTarjetas(data))
+    .catch(error => console.log(`el error es ${error}`));
